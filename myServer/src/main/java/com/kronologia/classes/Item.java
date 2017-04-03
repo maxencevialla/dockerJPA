@@ -1,10 +1,15 @@
 package com.kronologia.classes;
 
+import javax.persistence.*;
+
 /**
  * Created by maxence on 03/04/17.
  */
+@Entity
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;

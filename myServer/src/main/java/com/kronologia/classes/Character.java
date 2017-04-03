@@ -1,17 +1,23 @@
 package com.kronologia.classes;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by maxence on 03/04/17.
  */
+@Entity
 public class Character {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
     private int level;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Item> items;
 
     public Character() {}

@@ -3,14 +3,23 @@ package com.kronologia.resources;
 /**
  * Created by maxence on 03/04/17.
  */
+import com.kronologia.myCRUD;
 import com.kronologia.classes.Character;
 import com.kronologia.classes.Item;
 
+import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.logging.Logger;
 
 @Path("character")
-public class CharacterResource {
+public class CharacterResource extends myCRUD {
+
+    private final static Logger LOGGER = Logger.getLogger(CharacterResource.class.getSimpleName());
+
+    public CharacterResource() {
+        super();
+    }
 
     //Get all characters from the database
     @GET
@@ -24,7 +33,17 @@ public class CharacterResource {
     @Path("/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public String createCharacter(@PathParam("name") String name) {
-        Character.createCharacter(name);
+
+        //Start transaction
+        EntityTransaction et = this.em.getTransaction();
+        et.begin();
+        LOGGER.info("/name = " + name);
+
+        //Persist character
+        Character c = Character.createCharacter(name);
+        this.create(c);
+        et.commit();
+        LOGGER.info(c.getName());
         return name;
     }
 
