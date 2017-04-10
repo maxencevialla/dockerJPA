@@ -1,4 +1,4 @@
-package com.kronologia.classes;
+package com.kronologia.characters;
 
 import javax.persistence.*;
 import java.util.ArrayList;
