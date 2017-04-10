@@ -3,71 +3,49 @@ package com.kronologia.resources;
 /**
  * Created by maxence on 03/04/17.
  */
-import com.kronologia.myCRUD;
-import com.kronologia.classes.Character;
-import com.kronologia.classes.Item;
+import com.kronologia.JsonConverter;
+import com.kronologia.controller.CharacterController;
+import com.kronologia.controller.Controller;
+import com.kronologia.characters.MyCharacter;
 
-import javax.persistence.EntityTransaction;
+import javax.print.DocFlavor;
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.logging.Logger;
 
 @Path("character")
-public class CharacterResource extends myCRUD {
+public class CharacterResource extends Controller {
 
+    private CharacterController controller = new CharacterController();
     private final static Logger LOGGER = Logger.getLogger(CharacterResource.class.getSimpleName());
 
     public CharacterResource() {
         super();
     }
 
-    //Get all characters from the database
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getAll() {
-        return Character.getAllCharacters();
-    }
-
-    //Create a new character given his name
+    //Create a new character
     @POST
-    @Path("/{name}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String createCharacter(@PathParam("name") String name) {
-
-        //Start transaction
-        EntityTransaction et = this.em.getTransaction();
-        et.begin();
-        LOGGER.info("/name = " + name);
-
-        //Persist character
-        Character c = Character.createCharacter(name);
-        this.create(c);
-        et.commit();
-        LOGGER.info(c.getName());
-        return name;
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String createCharacter(MyCharacter c) {
+        controller.addCharacter(c);
+        return JsonConverter.generateCharacterJson(c);
     }
 
-    //Add a level to the character identified by ID
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String get(@PathParam("id") int id) {
+        MyCharacter c = controller.getCharacter(id);
+        return JsonConverter.generateCharacterJson(c);
+    }
+
     @PUT
-    @Path("/{id}/levelup")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/levelup/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public String levelup(@PathParam("id") int id) {
-        Character c = Character.getCharacterByID(id);
-        c.levelUp();
-
-        return c.getLevel()+"";
-    }
-
-    //Add a new item to a character identified by id
-    @PUT
-    @Path("/{id}/{itemName}/{description}/{cost}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String addItem(@PathParam("id") int id, @PathParam("itemName") String itemName,
-                          @PathParam("description") String description, @PathParam("cost") int cost) {
-        Item i = new Item(itemName, description, cost);
-        Character c = Character.getCharacterByID(id);
-        c.addItem(i);
-
-        return i.getName();
+        MyCharacter c = controller.levelup(id);
+        return JsonConverter.generateCharacterJson(c);
     }
 }

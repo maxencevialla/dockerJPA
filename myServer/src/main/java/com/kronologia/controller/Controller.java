@@ -1,16 +1,8 @@
-package com.kronologia.resources.controller;
-
-import com.kronologia.DatabaseManager;
-import com.kronologia.characters.MyCharacter;
+package com.kronologia.controller;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.EntityManager;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Created by maxence on 03/04/17.
@@ -23,7 +15,8 @@ public class Controller {
     protected EntityManager em;
 
     public Controller(){
-        this.emf = Persistence.createEntityManagerFactory("jdbc");
+        this.emf = Persistence.createEntityManagerFactory("jdbc"); //For docker
+        //this.emf = Persistence.createEntityManagerFactory("h2");
         this.em = emf.createEntityManager();
     }
 

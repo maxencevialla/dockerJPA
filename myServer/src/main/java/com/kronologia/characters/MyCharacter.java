@@ -1,14 +1,13 @@
 package com.kronologia.characters;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by maxence on 03/04/17.
  */
 @Entity
-public class Character {
+@NamedQuery(name = "findAllChars", query = "SELECT c FROM MyCharacter c")
+public class MyCharacter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,37 +16,11 @@ public class Character {
     private String name;
     private int level;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Item> items;
+    public MyCharacter() {}
 
-    public Character() {}
-
-    public static Character createCharacter(String name) {
-        Character c = new Character();
-        c.setName(name);
-        c.setLevel(1);
-        c.setItems(new ArrayList<Item>());
-
-        return c;
-    }
-
-    //Return the character identified by ID
-    public static Character getCharacterByID(int id) {
-        Character c = createCharacter("Paul");
-        return c;
-    }
-
-    public static String getAllCharacters() {
-        return "GetAllCharacters";
-    }
-
-    //Add the item to the current character
-    public void addItem(Item i) {
-        this.items.add(i);
-    }
-
-    public void levelUp() {
-        this.setLevel(this.getLevel() + 1);
+    public MyCharacter(String name, int level) {
+        this.name = name;
+        this.level = level;
     }
 
     public int getId() {
@@ -72,13 +45,5 @@ public class Character {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 }

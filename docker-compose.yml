@@ -1,0 +1,10 @@
+version: '2.1'
+services:
+  mysql:
+    build: ./myDB/
+  server:
+    build: ./myServer/
+    ports:
+      - "8080:8080"
+    links:
+      - mysql:myDB
