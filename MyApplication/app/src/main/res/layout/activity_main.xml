@@ -12,25 +12,56 @@
     tools:context="fr.kronologia.myclient.MainActivity">
 
     <Button
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get all"
         android:id="@+id/getAllButton"/>
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
-        android:id="@+id/nameET"/>
+        android:orientation="horizontal">
+        <EditText
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:id="@+id/nameET"/>
 
-    <Button
-        android:layout_width="wrap_content"
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addButton"
+            android:text="Add"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/addButton"
-        android:text="Add"
-        />
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="ID"
+            android:id="@+id/idET"/>
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/getButton"
+            android:text="Get"
+            />
+
+    </LinearLayout>
 
     <TextView
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text"
